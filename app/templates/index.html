@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Index page
+
+{% endblock %}
+
+{% block content_title %}
+
+Index page New
+
+{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+<details>
+    <summary>{{ post[0] }}</summary>
+    <ul>
+        {% for p in post[1] %}
+        <li>
+            <a href="/homework">{{ p }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</details>
+{% endfor %}
+{% endblock %}
