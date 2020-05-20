@@ -76,32 +76,29 @@ def Registration():
     a_hash = generate_password_hash(str(a))
     form = RegistrationForm()
     if form.validate_on_submit():
-        try:
-            if Status.query.filter_by(email=form.email.data).first().access != None:
-                user = User(username=form.username.data,
-                            status='admin',
-                            lesson=str([i for i in Status.query.all() if i.email == form.email.data][0]),
-                            delete_status='delete',
-                            email=form.email.data)
-                user.set_password(form.password.data)
-            else:
-                user = User(username=form.username.data,
-                            delete_status='delete',
-                            email=form.email.data)
-                user.set_password(form.password.data)
-            db.session.add(user)
-            db.session.commit()
-            send_email(form.email.data, 'Проверка email', 'Код - {}'.format(a))
-            return redirect('/check_email/{}/{}'.format(a_hash, form.username.data))
-        except:
-            return redirect('/Registration')
+        if Status.query.filter_by(email=form.email.data).first().access != None:
+            user = User(username=form.username.data,
+                        status='admin',
+                        lesson=str([i for i in Status.query.all() if i.email == form.email.data][0]),
+                        delete_status='delete',
+                        email=form.email.data)
+            user.set_password(form.password.data)
+        else:
+            user = User(username=form.username.data,
+                        delete_status='delete',
+                        email=form.email.data)
+            user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        send_email(form.email.data, 'Проверка email', 'Код - {}'.format(a))
+        return redirect('/check_email/{}/{}'.format(a_hash, form.username.data))
     return render_template('Registration.html', form=form)
 
-@app.route('/check_email/<kod>/<login>/', methods=['GET', 'POST'])
-def check_email(kod, login):
+@app.route('/check_email/<code>/<login>/', methods=['GET', 'POST'])
+def check_email(code, login):
     form = CheckForm()
     if form.validate_on_submit():
-        if check_password_hash(str(kod), str(form.kod.data)):
+        if check_password_hash(str(code), str(form.code.data)):
             db.session.query(User).filter_by(username=login).update({User.delete_status: 'success'}, synchronize_session=False)
             db.session.commit()
             return redirect('/login')

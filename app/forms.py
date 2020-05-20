@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
-from app.models import User
+from app.models import User, Status
 
 
 class LoginForm(FlaskForm):
@@ -31,6 +31,9 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+        if Status.query.filter_by(email=email.data).first() is None:
+            raise ValidationError('Unregistered email')
+
 
     def validate_password(self, password):
         if len(password.data) < 7:
@@ -50,5 +53,5 @@ class HomeworkLoadForm(FlaskForm):
     submit = SubmitField('Загрузить')
 
 class CheckForm(FlaskForm):
-    code = PasswordField('Kod', validators=[DataRequired()])
+    code = PasswordField('Email code', validators=[DataRequired()])
     submit = SubmitField('Проверить')

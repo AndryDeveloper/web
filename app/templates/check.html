@@ -16,9 +16,9 @@ Homework page New
 <form action="" method="post" autocomplete="off" novalidate>
     {{ form.hidden_tag() }}
     <p>
-        {{ form.kod.label }}<br>
-        {{ form.kod(size=32) }}
-        {% for error in form.kod.errors %}
+        {{ form.code.label }}<br>
+        {{ form.code(size=32) }}
+        {% for error in form.code.errors %}
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
     </p>
