@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Загрузка ДЗ
+
+{% endblock %}
+
+{% block content_title %}
+
+Загрузка ДЗ
+
+{% endblock %}
+
+{% block content %}
+<form action="" method="post" autocomplete="off" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.comments.label }}<br>
+        {{ form.comments(size=32) }}
+    </p>
+    <p>
+        {{ form.files.label }}<br>
+        {{ form.files(size=32) }}
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

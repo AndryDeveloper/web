@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Homework page
+
+{% endblock %}
+
+{% block content_title %}
+
+Homework page New
+
+{% endblock %}
+
+{% block content %}
+<h1>{{number}}</h1>
+{% for student in students %}
+    <p>
+        {{student[0]}}
+        {% if student[1] %}
+        <a href="/user/hw/{{number}}" download>Перейти на страницу домашней работы</a>
+        {% else %}
+        <mark>Ученик ничего не загрузил</mark>
+        {% endif %}
+    </p>
+{% endfor %}
+{% endblock %}
+
+
+
