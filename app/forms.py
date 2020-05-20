@@ -1,8 +1,7 @@
-from flask_wtf import FlaskForm, validators
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, Email
-import email_validator
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from app.models import User
 
 
 class LoginForm(FlaskForm):
@@ -12,12 +11,44 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
     message = ''
 
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('Repeat your password', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
 
-    email = EmailField('Email address', validators=[Email(), DataRequired()])
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different username.')
+        if len(username.data.split(' ')) == 1:
+            raise ValidationError('Username must consists of first name and last name')
 
-    submit = SubmitField('Ok')
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different email address.')
 
+    def validate_password(self, password):
+        if len(password.data) < 7:
+            raise ValidationError('Password must be longer than 6 symbols')
+        if password.data.isalpha() or password.data.isdigit() or not password.data.isalnum():
+            raise ValidationError('Password must consists of letters and numbers')
+
+class MakeHomeworkForm(FlaskForm):
+    number = StringField('Задание', validators=[DataRequired()])
+    comments = StringField('Комментарии')
+    files = FileField('Загрузить файл(если файлов несколько загрузите одним архивом)')
+    submit = SubmitField('Загрузить')
+
+class HomeworkLoadForm(FlaskForm):
+    comments = StringField('Решение')
+    files = FileField('Загрузить файл(если файлов несколько загрузите одним архивом)')
+    submit = SubmitField('Загрузить')
+
+class CheckForm(FlaskForm):
+    code = PasswordField('Kod', validators=[DataRequired()])
+    submit = SubmitField('Проверить')

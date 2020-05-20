@@ -1,7 +1,7 @@
 import os
 
 from app import app, db
-from app.models import User, Post
+from app.models import User
 from app.routes import build_sample_db
 
 if __name__ == '__main__':
@@ -14,3 +14,4 @@ if __name__ == '__main__':
 # @app.shell_context_processor
 # def make_shell_context():
 #     return {'db': db, 'User': User, 'Post': Post}
+

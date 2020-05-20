@@ -14,15 +14,15 @@ Index page New
 
 {% block content %}
 {% for post in posts %}
-<details>
-    <summary>{{ post[0] }}</summary>
-    <ul>
-        {% for p in post[1] %}
-        <li>
-            <a href="/homework">{{ p }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-</details>
+<li>
+    <a href="/homework/{{post[0]}}">{{post[1]}}: {{post[0]}}</a>
+    {% if status %}
+         <a href="/delete_homework/{{post[0]}}" style="color:red;">Удалить</a>
+    {% endif %}
+</li>
 {% endfor %}
+{% if status %}
+    <a href="/make_homework" style="color:black;">Добавить домашнее задание++</a>
+{% endif %}
+
 {% endblock %}

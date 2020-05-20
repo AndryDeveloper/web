@@ -13,7 +13,14 @@ Homework page New
 {% endblock %}
 
 {% block content %}
-<p>Пусто тут пока</p>
+<p><a href="/homework_load/{{number}}">Загрузить решение</a></p>
+<p>{{number}}</p>
+<p>{{hw.comments}}</p>
+<p>
+    <a href="upload/{{hw.files}}" download>
+        Приложенные файлы
+    </a>
+</p>
 {% endblock %}
 
 
