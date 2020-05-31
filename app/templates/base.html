@@ -35,13 +35,17 @@
                 {% endif %}
             </li>
 
+            {% if not current_user.is_anonymous %}
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="/user">Your profile</a>
             </li>
 
+            {% if current_user.status %}
             <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <a class="nav-link" href="/make_homework/message">Написать сообщение</a>
             </li>
+            {% endif %}
+            {% endif %}
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

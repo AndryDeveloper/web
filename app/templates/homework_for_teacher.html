@@ -18,7 +18,7 @@ Homework page New
     <p>
         {{student[0]}}
         {% if student[1] %}
-        <a href="/user/hw/{{number}}" download>Перейти на страницу домашней работы</a>
+        <a href="/uploads/{{hw.files}}/files" download="">Скачать</a>
         {% else %}
         <mark>Ученик ничего не загрузил</mark>
         {% endif %}

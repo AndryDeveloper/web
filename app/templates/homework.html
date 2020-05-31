@@ -13,14 +13,23 @@ Homework page New
 {% endblock %}
 
 {% block content %}
-<p><a href="/homework_load/{{number}}">Загрузить решение</a></p>
-<p>{{number}}</p>
-<p>{{hw.comments}}</p>
-<p>
-    <a href="upload/{{hw.files}}" download>
-        Приложенные файлы
-    </a>
-</p>
+<p>{{yhw.number}}</p>
+{% if yhw.comments or yhw.files %}
+<p>{{yhw.comments}}</p>
+{% if yhw.files %}
+<p><a href="/upload/{{yhw.files}}/files" download=""><img src="/uploads/{{yhw.files}}/files" title="Вы правда хотите это скачать? Не надо..." width="100" height="111"></a></p>
+{% endif %}
+{% endif %}
+
+<p><a href="/homework_load/{{yhw.number}}"><mark>Загрузить решение</mark></a></p>
+{% for hw in hws %}
+{% if hw.body %}
+    <p> Решение номер {{hw.id}}:<br>{{hw.body}}</p>
+{% endif %}
+{% if hw.files %}
+    <a href="/upload/{{hw.files}}/files" download=""><img src="/uploads/{{hw.files}}/files" title="Вы правда хотите это скачать? Не надо..." width="100" height="111"></a>
+{% endif %}
+{% endfor %}
 {% endblock %}
 
 

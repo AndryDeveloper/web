@@ -14,15 +14,36 @@ Index page New
 
 {% block content %}
 {% for post in posts %}
-<li>
-    <a href="/homework/{{post[0]}}">{{post[1]}}: {{post[0]}}</a>
-    {% if status %}
-         <a href="/delete_homework/{{post[0]}}" style="color:red;">Удалить</a>
-    {% endif %}
-</li>
+    <details>
+            <summary>{{post[0]}}</summary>
+            <ul>
+                {% for p in post[1] %}
+                {% if p.type == "message" %}
+                    <li>
+                        {% if p.comments or p.files %}
+                        <details>
+                            <summary>{{p}}</summary>
+                                <ul>
+                                    <li>{{p.comments}}</li>
+                                    {% if p.files %}
+                                        <li><a href="/upload/{{p.files}}/files" download=""><img src="/uploads/{{p.files}}/files" title="Вы правда хотите это скачать? Не надо..." width="100" height="111"></a></li>
+                                    {% endif %}
+                                </ul>
+                        </details>
+                        {% else %}
+                        {{p}}
+                        {% endif %}
+                        {% if status and user.lesson == post[0] %}
+                            <a href="/delete_homework/{{p}}" style="color:red;">Удалить</a>
+                        {% endif %}
+                        {{p.timestamp}}
+                    </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+    </details>
 {% endfor %}
 {% if status %}
-    <a href="/make_homework" style="color:black;">Добавить домашнее задание++</a>
+    <a href="/make_homework/message" style="color:blue;">Добавить объявление++</a>
 {% endif %}
-
 {% endblock %}

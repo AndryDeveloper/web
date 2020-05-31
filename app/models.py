@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    avatar = db.Column(db.String(128))
     status = db.Column(db.String(120))
     lesson = db.Column(db.String(120))
     You_homeworks = db.relationship('You_homework', backref='author', lazy='dynamic')
@@ -45,6 +46,8 @@ class Homeworks(db.Model):
     lesson = db.Column(db.String(140))
     files = db.Column(db.String(140))
     comments = db.Column(db.String(140))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    type = db.Column(db.String(120))
 
     def __repr__(self):
         return '{}'.format(self.number)
